@@ -6,3 +6,15 @@ h1, h2, h3, h4, h5, h6 {
 .customBackgroundColorBlue {
     background-color: rgb(103,172,218);
 }
+
+td button.btn-warning {
+    color: #fff;
+    background-color: #ff851b;
+    border-color: #ff851b;
+}
+
+td button.btn-danger {
+	color: #fff;
+	background-color: #ff4136;
+	border-color: #ff4136;
+}
