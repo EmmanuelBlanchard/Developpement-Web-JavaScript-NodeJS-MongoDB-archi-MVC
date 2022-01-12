@@ -25,16 +25,21 @@ var livre4 = {
 }
 
 var tableauLivres = [livre1,livre2,livre3,livre4];
+afficherLivres();
 
-for(var i = 0 ; i <= tableauLivres.length - 1 ; i++) {
-    var livre = document.createElement("tr");
-
-    livre.innerHTML = ` <td>${tableauLivres[i].nom}</td>
+function afficherLivres() {
+    var livresAffichageTableTbody = document.querySelector("#tableauLivres tbody");
+    var livres = "";
+    for(var i = 0 ; i < tableauLivres.length ; i++) {
+        livres += ` <tr>
+                        <td>${tableauLivres[i].nom}</td>
                         <td>${tableauLivres[i].auteur}</td>
                         <td>${tableauLivres[i].nombreDePages}</td>
                         <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
-                        <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>`;
-    table.appendChild(livre);
+                        <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
+                    </tr>`;
+    }
+    livresAffichageTableTbody.innerHTML = livres;
 }
 
 function AjouterFormulaire() {
@@ -48,7 +53,7 @@ function ajoutLivre(titre,auteur,nombreDePages) {
         nombreDePages : nombreDePages, 
     }
     tableauLivres.push(livre);
-    console.log(tableauLivres);
+    afficherLivres();
 }
 
 document.querySelector("#validationFormulaireAjout").addEventListener("click", function(event) {
@@ -58,4 +63,7 @@ document.querySelector("#validationFormulaireAjout").addEventListener("click", f
     var auteur = document.querySelector("#ajoutFormulaire #auteur").value;
     var nombreDePages = parseInt(document.querySelector("#ajoutFormulaire #nombreDePages").value);
     ajoutLivre(titre,auteur,nombreDePages);
+    const formulaire = document.querySelector("#ajoutFormulaire")
+    formulaire.reset();
+    formulaire.className = "d-none";
 });
