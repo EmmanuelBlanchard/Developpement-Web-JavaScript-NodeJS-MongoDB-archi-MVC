@@ -1,3 +1,5 @@
+const table = document.querySelector("#tableauLivres");
+
 var livre1 = {
     nom : "L'Algorithmique selon H2PROG",
     auteur : "Matthieu GASTON",
@@ -24,16 +26,15 @@ var livre4 = {
 
 var tableauLivres = [livre1,livre2,livre3,livre4];
 
-console.log(tableauLivres);
 
-var table = document.querySelector("#tableauLivres");
+for(var i = 0 ; i <= tableauLivres.length - 1 ; i++) {
+    var livre = document.createElement("tr");
 
-var livre1 = document.createElement("tr");
+    livre.innerHTML = `<td>${tableauLivres[i].nom}</td>
+            <td>${tableauLivres[i].auteur}</td>
+            <td>${tableauLivres[i].nombreDePages}</td>
+            <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
+            <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>`;
 
-livre1.innerHTML = `<td>L'Algorithmique selon H2PROG</td>
-        <td>Matthieu GASTON</td>
-        <td>200</td>
-        <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
-        <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>`;
-
-table.appendChild(livre1);
+    table.appendChild(livre);
+}
