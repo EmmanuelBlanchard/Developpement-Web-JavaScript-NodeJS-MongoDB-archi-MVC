@@ -40,28 +40,5 @@ for(var i = 0 ; i <= tableauLivres.length - 1 ; i++) {
 }
 
 function AjouterFormulaire() {
-    if(!document.querySelector("#formulaireAjout")) {
-        var monFormulaire = document.createElement("form");
-        monFormulaire.setAttribute("id","formulaireAjout");
-
-        monFormulaire.innerHTML = `
-        <fieldset>
-            <legend>Création d'un livre</legend>
-            <div class="mb-3">
-                <label for="titre" class="form-label">Titre</label>
-                <input type="text" class="form-control" id="titre">
-            </div>
-            <div class="mb-3">
-                <label for="auteur" class="form-label">Auteur</label>
-                <input type="text" class="form-control" id="auteur">
-            </div>
-            <div class="mb-3">
-                <label for="nombreDePages" class="form-label">Nombre de pages</label>
-                <input type="number" class="form-control" id="nombreDePages">
-            </div>
-            <button type="submit" class="btn btn-primary">Valider</button>
-        </fieldset>
-    `;
-    document.querySelector("main.container").appendChild(monFormulaire);
-    }
+    document.querySelector("#ajoutFormulaire").removeAttribute("class");
 }
