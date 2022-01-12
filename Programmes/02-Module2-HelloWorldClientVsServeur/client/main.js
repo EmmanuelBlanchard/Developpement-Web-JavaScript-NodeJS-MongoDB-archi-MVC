@@ -6,7 +6,7 @@ for(let i = 1 ; i < 11 ; i++) {
 }
 //document.querySelector("div").innerHTML = texte;
 
-document.querySelector(".resultatDeLaTableDeMuliplicationDe5").innerHTML = texte;
+document.querySelector(".resultatDeLaTableDeMultiplicationDe5").innerHTML = texte;
 
 //alert("Hello World !");
 // Debut presentation de l'affichage via pop-up
