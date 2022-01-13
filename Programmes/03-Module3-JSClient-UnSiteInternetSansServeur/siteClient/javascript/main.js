@@ -36,7 +36,7 @@ function afficherLivres() {
                         <td>${tableauLivres[i].auteur}</td>
                         <td>${tableauLivres[i].nombreDePages}</td>
                         <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
-                        <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
+                        <td><button type="button" onclick="supprimerLivre(${i})" class="btn btn-danger m-2">Supprimer</button></td>
                     </tr>`;
     }
     livresAffichageTableTbody.innerHTML = livres;
@@ -54,6 +54,16 @@ function ajoutLivre(titre,auteur,nombreDePages) {
     }
     tableauLivres.push(livre);
     afficherLivres();
+}
+
+function supprimerLivre(position) {
+    if(confirm("Voulez-vous vraiment supprimer ce livre ? ")) {
+        tableauLivres.splice(position,1);
+        afficherLivres();
+        alert("Suppression du livre effectuée");
+    } else {
+        alert("Action de suppression du livre annulée");
+    }
 }
 
 document.querySelector("#validationFormulaireAjout").addEventListener("click", function(event) {
