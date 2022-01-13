@@ -10,6 +10,10 @@ routeur.get("/livres", (requete,reponse) => {
     reponse.render("livres/liste.html.twig");
 });
 
+routeur.get("/livres/:nom", (requete,reponse) => {
+    console.log(requete.params.nom);
+    reponse.render("livres/livre.html.twig", {nom:requete.params.nom});
+});
 
 // Gère l'erreur 404
 routeur.use((requete,reponse,suite) => {
