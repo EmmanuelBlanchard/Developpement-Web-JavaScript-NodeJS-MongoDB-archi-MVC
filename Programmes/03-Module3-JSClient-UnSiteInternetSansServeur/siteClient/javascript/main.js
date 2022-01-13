@@ -110,3 +110,32 @@ document.querySelector("#validationFormulaireModification").addEventListener("cl
     afficherLivres();
     document.querySelector("#modificationLivreFormulaire").className = "d-none";
 });
+
+/* Documentation 
+
+    Problèmatiques
+
+        => Comment réaliser une structure commune pour ne pas dupliquer le menu, le design global, la structure du DOM ?
+
+        => Comment réaliser les actions du CRUD ( Ajout / Modification / Suppression) ?
+
+        => Comment conserver les données de notre site ?
+
+    JavaScript Client : 
+
+    => Le JavaScript client est executé sur la machine de l'utilisateur au travers du navigateur. Il est donc impossible que le client stocke de manière perenne des données dont le site internet a besoin.
+    
+    => Le stockage des données doit donc se faire à l'extérieur du client, c'est à dire sur le serveur.
+
+    
+    Quel site avons nous créé ?
+
+    => Tout ce que nous venons de programmer se situe au niveau du client, c'est le navigateur qui travaille !
+
+    => Au rechargement de la page, nous perdons tout ce que nous avons fait puisque cela n'a jamais étét << sauvergardé >>
+
+    => Pour sauvegarder les informations, nous avons besoin d'un serveur et d'un espace de stockage (une base de données)
+
+    => Il est donc nécessaire d'envisager un autre type de programmation
+
+*/
