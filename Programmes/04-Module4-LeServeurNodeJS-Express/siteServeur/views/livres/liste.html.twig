@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block titre %} Page listant les livres {% endblock %}
+{% block contenu %}
+    <table class="table text-center monTableau" id="tableauLivres">
+        <thead>
+            <tr class="table-dark">
+                <th scope="col">Titre</th>
+                <th scope="col">Auteur</th>
+                <th scope="col">Nombre de pages</th>
+                <th colspan="2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>L'Algorithmique selon H2PROG</td>
+                <td>Matthieu GASTON</td>
+                <td>200</td>
+                <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
+                <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
+            </tr>
+            <tr>
+                <td>La France du 19ème</td>
+                <td>Albert Patrick</td>
+                <td>500</td>
+                <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
+                <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
+            </tr>
+            <tr>
+                <td>Le monde des animaux</td>
+                <td>Marc Merlin</td>
+                <td>250</td>
+                <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
+                <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
+            </tr>
+            <tr>
+                <td>Le virus d'Asie</td>
+                <td>Tya Milo</td>
+                <td>120</td>
+                <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
+                <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="#" class="btn btn-success d-block">Ajouter</a>
+{% endblock %}

@@ -6,15 +6,10 @@ routeur.get("/", (requete,reponse) => {
     reponse.render("accueil.html.twig");
 });
 
-routeur.get("/test", (requete,reponse) => {
-    console.log("Demande reçue avec la méthode GET sur l'url /test");
-    reponse.end("Page test méthode GET recue !");
+routeur.get("/livres", (requete,reponse) => {
+    reponse.render("livres/liste.html.twig");
 });
 
-routeur.post("/test", (requete,reponse) => {
-    console.log("Demande reçue avec la méthode POST sur l'url /test");
-    reponse.end("Page test méthode POST recue !");
-});
 
 // Gère l'erreur 404
 routeur.use((requete,reponse,suite) => {
