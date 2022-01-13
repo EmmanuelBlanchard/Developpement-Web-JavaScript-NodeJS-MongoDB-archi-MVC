@@ -1,9 +1,9 @@
-var express = require("express");
-var routeur = express.Router();
+const express = require("express");
+const routeur = express.Router();
+const twig = require("twig");
 
 routeur.get("/", (requete,reponse) => {
-    console.log("Page d'accueil demandée");
-    reponse.end("Page d'accueil demandée");
+    reponse.render("accueil.html.twig");
 });
 
 routeur.get("/test", (requete,reponse) => {
