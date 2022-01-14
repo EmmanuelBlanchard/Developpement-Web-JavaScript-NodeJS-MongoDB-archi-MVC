@@ -9,4 +9,4 @@ const livreSchema = mongoose.Schema({
 });
 
 // Association entre le schema et la BD, Export du model
-module.exports = mongoose.model('Livre',livreSchema);
+module.exports = mongoose.model("Livre",livreSchema);

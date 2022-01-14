@@ -1,6 +1,7 @@
 const express = require("express");
 const routeur = express.Router();
 const twig = require("twig");
+const mongoose = require("mongoose");
 const livreModel = require('./models/livres.model');
 
 routeur.get("/", (requete,reponse) => {
@@ -20,11 +21,24 @@ routeur.get("/livres", (requete,reponse) => {
 });
 
 routeur.post("/livres", (requete,reponse) => {
-    console.log("Formulaire recu !");
+    const livre = new livreModel({
+        _id: new mongoose.Types.ObjectId(),
+        nom: requete.body.titre,
+        auteur: requete.body.auteur,
+        nombreDePages: requete.body.nombreDePages,
+        description: requete.body.description,
+    })
+    livre.save()
+    .then(resultat => {
+        console.log(resultat);
+        reponse.redirect("/livres");
+    })
+    .catch(error => {
+        console.log(error);
+    });
 });
 
 routeur.get("/livres/:id", (requete,reponse) => {
-    // console.log(requete.params.id);
     livreModel.findById(requete.params.id)
         .exec()
         .then(livre => {
