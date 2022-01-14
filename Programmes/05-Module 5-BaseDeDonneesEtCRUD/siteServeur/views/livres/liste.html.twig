@@ -21,28 +21,30 @@
                 <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
             </tr>
             {% endfor %}
-            <!-- <tr>
-                <td><a href="/livres/La France du 19ème">La France du 19ème</a></td>
-                <td>Albert Patrick</td>
-                <td>500</td>
-                <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
-                <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
-            </tr>
-            <tr>
-                <td><a href="/livres/Le monde des animaux">Le monde des animaux</a></td>
-                <td>Marc Merlin</td>
-                <td>250</td>
-                <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
-                <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
-            </tr>
-            <tr>
-                <td><a href="/livres/Le virus d'Asie">Le virus d'Asie</a></td>
-                <td>Tya Milo</td>
-                <td>120</td>
-                <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
-                <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
-            </tr> -->
         </tbody>
     </table>
-    <a href="#" class="btn btn-success d-block">Ajouter</a>
+    <button onclick="afficherFormulaire()" class="btn btn-success w-100">Ajouter</button>
+    <form id="ajoutFormulaire" class="d-none" method="POST" action="">
+        <fieldset>
+            <legend>Création d'un livre</legend>
+            <div class="mb-3">
+                <label for="titre" class="form-label">Titre</label>
+                <input type="text" class="form-control" id="titre" name="titre">
+            </div>
+            <div class="mb-3">
+                <label for="auteur" class="form-label">Auteur</label>
+                <input type="text" class="form-control" id="auteur" name="auteur">
+            </div>
+            <div class="mb-3">
+                <label for="nombreDePages" class="form-label">Nombre de pages</label>
+                <input type="number" class="form-control" id="nombreDePages" name="nombreDePages">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Valider</button>
+        </fieldset>
+    </form>
+    <script src="javascript/ajoutLivre.js"></script>
 {% endblock %}

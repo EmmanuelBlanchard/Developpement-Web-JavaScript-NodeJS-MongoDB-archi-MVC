@@ -19,6 +19,10 @@ routeur.get("/livres", (requete,reponse) => {
     });
 });
 
+routeur.post("/livres", (requete,reponse) => {
+    console.log("Formulaire recu !");
+});
+
 routeur.get("/livres/:id", (requete,reponse) => {
     // console.log(requete.params.id);
     livreModel.findById(requete.params.id)
