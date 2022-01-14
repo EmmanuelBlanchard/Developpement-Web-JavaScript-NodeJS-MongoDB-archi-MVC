@@ -9,7 +9,6 @@
         {{message.contenu}}
     </div>
 {% endif %}
-
     <table class="table text-center monTableau" id="tableauLivres">
         <thead>
             <tr class="table-dark">
@@ -25,7 +24,7 @@
                 <td><a href="/livres/{{ livre._id }}"> {{livre.nom}} </a></td>
                 <td> {{livre.auteur}} </td>
                 <td> {{livre.nombreDePages}} </td>
-                <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
+                <td><a href="/livres/modification/{{ livre._id }}" class="btn btn-warning m-2">Modifier</a></td>
                 <td>
                     <form method="POST" action="/livres/delete/{{ livre._id }}" onsubmit="return confirm('Voulez vous vraiment supprimer le livre {{ livre.nom }} de  {{livre.auteur}} ? ');">
                         <button class="btn btn-danger m-2" type="submit">Supprimer</button>

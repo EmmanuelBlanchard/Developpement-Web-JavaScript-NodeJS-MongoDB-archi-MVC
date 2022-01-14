@@ -2,18 +2,51 @@
 
 {% block titre %} {{livre.nom}} {% endblock %}
 {% block contenu %}
-    <div class="row m-3">
-        <div class="col-6">
-            <h2>Informations</h2>
-            <div>Auteur : {{livre.auteur}}</div>
-            <div>Nombre de pages : {{livre.nombreDePages}}</div>
-            <img src="https://picsum.photos/200/200" alt="">
-        </div>
-        <div class="col-6">
-            <h2>Résumé : </h2>
-            <div>
-                {{livre.description}}
+    {% if isModification %}
+        <form action="" method="POST">
+            <div class="row m-3">
+                <div class="col-6">
+                    <h2>Informations</h2>
+                    <div class="mb-3">
+                        <label for="titre" class="form-label">Titre</label>
+                        <input type="text" class="form-control" id="titre" name="titre" value="{{livre.nom}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="auteur" class="form-label">Auteur</label>
+                        <input type="text" class="form-control" id="auteur" name="auteur" value="{{livre.auteur}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombreDePages" class="form-label">Nombre de pages</label>
+                        <input type="number" class="form-control" id="nombreDePages" name="nombreDePages" value="{{livre.nombreDePages}}">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h2>Résumé : </h2>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="3" name="description">{{livre.description}}</textarea>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+            <div class="row">
+                <button class="btn btn-success col-6" type="submit">Valider</button>
+                <a href="/livres" class="btn btn-danger col-6">Annuler</a>
+            </div>
+        </form>
+        {% else %}
+            <div class="row m-3">
+                <div class="col-6">
+                    <h2>Informations</h2>
+                    <div>Auteur : {{livre.auteur}}</div>
+                    <div>Nombre de pages : {{livre.nombreDePages}}</div>
+                    <img src="https://picsum.photos/200/200" alt="">
+                </div>
+                <div class="col-6">
+                    <h2>Résumé : </h2>
+                    <div>
+                        {{livre.description}}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 {% endblock %}
