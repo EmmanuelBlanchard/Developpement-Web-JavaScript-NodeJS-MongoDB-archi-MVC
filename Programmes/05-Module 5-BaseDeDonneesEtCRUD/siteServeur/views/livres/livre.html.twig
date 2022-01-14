@@ -3,7 +3,7 @@
 {% block titre %} {{livre.nom}} {% endblock %}
 {% block contenu %}
     {% if isModification %}
-        <form action="" method="POST">
+        <form action="/livres/modificationServer" method="POST">
             <div class="row m-3">
                 <div class="col-6">
                     <h2>Informations</h2>
@@ -29,6 +29,7 @@
                 </div>
             </div>
             <div class="row">
+                <input type="hidden" name="identifiant" value="{{livre._id}}">
                 <button class="btn btn-success col-6" type="submit">Valider</button>
                 <a href="/livres" class="btn btn-danger col-6">Annuler</a>
             </div>

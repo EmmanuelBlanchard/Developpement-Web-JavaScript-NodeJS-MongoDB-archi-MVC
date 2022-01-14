@@ -62,6 +62,48 @@ routeur.get("/livres/modification/:id", (requete,reponse) => {
         });
 });
 
+// Modification du livre Traitement du formulaire dans le model et BDD
+routeur.post("/livres/modificationServer", (requete,reponse) => {
+    // console.log(requete.body);
+    const livreUpdate = {
+        nom : requete.body.titre,
+        auteur : requete.body.auteur,
+        nombreDePages : requete.body.nombreDePages,
+        description : requete.body.description,
+    }
+    /* 
+    Error
+    (node:7420) [MONGODB DRIVER] Warning: collection.update is deprecated. Use updateOne, updateMany, or bulkWrite instead.
+    */
+    // Deprecated
+    // livreModel.update({_id:requete.body.identifiant}, livreUpdate)
+    // .exec()
+    // .then(resultat => {
+    //     console.log(resultat)
+    //     requete.session.message = {
+    //         type : "success",
+    //         contenu : "Modification du livre effectuée"
+    //     }
+    //     reponse.redirect("/livres");
+    // })
+    // .catch(error => {
+    //     console.log(error);
+    // });
+    livreModel.updateOne({_id:requete.body.identifiant}, livreUpdate)
+    .exec()
+    .then(resultat => {
+        console.log(resultat)
+        requete.session.message = {
+            type : "success",
+            contenu : "Modification du livre effectuée"
+        }
+        reponse.redirect("/livres");
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
 routeur.post("/livres/delete/:id", (requete,reponse) => {
     livreModel.remove({_id:requete.params.id})
     .exec()
