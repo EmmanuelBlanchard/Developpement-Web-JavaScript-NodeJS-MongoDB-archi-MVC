@@ -18,7 +18,11 @@
                 <td> {{livre.auteur}} </td>
                 <td> {{livre.nombreDePages}} </td>
                 <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
-                <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
+                <td>
+                    <form method="POST" action="/livres/delete/{{ livre._id }}" onsubmit="return confirm('Voulez vous vraiment supprimer le livre {{ livre.nom }} de  {{livre.auteur}} ? ');">
+                        <button class="btn btn-danger m-2" type="submit">Supprimer</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

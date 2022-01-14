@@ -49,6 +49,17 @@ routeur.get("/livres/:id", (requete,reponse) => {
         });
 });
 
+routeur.post("/livres/delete/:id", (requete,reponse) => {
+    livreModel.remove({_id:requete.params.id})
+    .exec()
+    .then(resultat => {
+        reponse.redirect("/livres");
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
 // Gère l'erreur 404
 routeur.use((requete,reponse,suite) => {
     const error = new Error("Page non trouvee ! ");
