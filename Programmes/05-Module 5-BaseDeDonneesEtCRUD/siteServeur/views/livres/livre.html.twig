@@ -1,22 +1,18 @@
 {% extends "base.html.twig" %}
 
-{% block titre %} {{nom}} {% endblock %}
+{% block titre %} {{livre.nom}} {% endblock %}
 {% block contenu %}
     <div class="row m-3">
         <div class="col-6">
             <h2>Informations</h2>
-            <div>Auteur</div>
-            <div>Nombre de pages</div>
+            <div>Auteur : {{livre.auteur}}</div>
+            <div>Nombre de pages : {{livre.nombreDePages}}</div>
             <img src="https://picsum.photos/200/200" alt="">
         </div>
         <div class="col-6">
             <h2>Résumé : </h2>
             <div>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Possimus, illum perspiciatis beatae temporibus laboriosam non magnam debitis minus quo sunt? Iste totam odit culpa reiciendis rem ipsam accusantium eius quos!
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque libero inventore reprehenderit quasi voluptatibus nisi, sequi placeat? Nisi, necessitatibus excepturi. Ipsa saepe necessitatibus quos iure facilis asperiores ab molestiae eveniet.
-                Repellendus assumenda asperiores minima eveniet ullam ducimus, tempora aliquid blanditiis natus dolorem atque, nostrum vitae qui doloremque labore distinctio dolore optio alias voluptatem nulla mollitia. Laboriosam distinctio eveniet sed debitis!
-                Molestiae laboriosam amet iste dicta nostrum repudiandae aliquam soluta magni. Aperiam, dolores tenetur! Consectetur facere qui iure commodi eaque maxime natus culpa optio sunt, deserunt nam magnam, veniam veritatis voluptate.
-                Eaque ut nihil nesciunt repudiandae facilis, doloremque eos consequatur! Ratione soluta placeat, veritatis ea explicabo voluptatum assumenda, nesciunt a alias amet praesentium eaque similique, provident voluptas corrupti nemo quia quidem!
+                {{livre.description}}
             </div>
         </div>
     </div>
