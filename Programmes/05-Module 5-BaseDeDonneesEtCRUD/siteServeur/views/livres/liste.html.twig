@@ -12,14 +12,16 @@
             </tr>
         </thead>
         <tbody>
+            {% for livre in livres %}
             <tr>
-                <td><a href="/livres/L'Algorithmique selon H2PROG">L'Algorithmique selon H2PROG</a></td>
-                <td>Matthieu GASTON</td>
-                <td>200</td>
+                <td><a href="/livres/{{ livre._id }}"> {{livre.nom}} </a></td>
+                <td> {{livre.auteur}} </td>
+                <td> {{livre.nombreDePages}} </td>
                 <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
                 <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
             </tr>
-            <tr>
+            {% endfor %}
+            <!-- <tr>
                 <td><a href="/livres/La France du 19ème">La France du 19ème</a></td>
                 <td>Albert Patrick</td>
                 <td>500</td>
@@ -39,7 +41,7 @@
                 <td>120</td>
                 <td><button type="button" class="btn btn-warning m-2">Modifier</button></td>
                 <td><button type="button" class="btn btn-danger m-2">Supprimer</button></td>
-            </tr>
+            </tr> -->
         </tbody>
     </table>
     <a href="#" class="btn btn-success d-block">Ajouter</a>
