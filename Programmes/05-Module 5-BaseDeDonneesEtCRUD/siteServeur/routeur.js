@@ -13,7 +13,7 @@ routeur.get("/livres", (requete,reponse) => {
     .exec()
     .then(livres => {
         //console.log(livres);
-        reponse.render("livres/liste.html.twig", { livres : livres});
+        reponse.render("livres/liste.html.twig", { livres : livres, message: reponse.locals.message});
     })
     .catch(error => {
         console.log(error);
@@ -53,6 +53,10 @@ routeur.post("/livres/delete/:id", (requete,reponse) => {
     livreModel.remove({_id:requete.params.id})
     .exec()
     .then(resultat => {
+        requete.session.message = {
+            type : "success",
+            contenu : "Suppression du livre effectuée"
+        }
         reponse.redirect("/livres");
     })
     .catch(error => {
