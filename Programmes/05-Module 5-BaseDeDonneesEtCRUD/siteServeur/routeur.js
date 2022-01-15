@@ -4,6 +4,48 @@ const twig = require("twig");
 const mongoose = require("mongoose");
 const livreModel = require('./models/livres.model');
 
+const multer =  require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (requete, file, cb) {
+    cb(null, './public/images/');
+  },
+  filename: function (requete, file, cb) {
+    //   var date = new Date().toLocaleDateString();
+    //   console.log(date);
+
+    // Error: ENOENT: no such file or directory, open 
+    // cb(null, date+'-'+(Math.round(Math.random() * 1E9))+'-'+file.originalname);
+      
+    // cb(null, Date.now() + '-' + Math.round(Math.random() * 1E9) + '-' + file.originalname);
+    // cb(null, file.originalname);
+    
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    cb(null, day + '-' + month + '-' + year + '-' + Math.round(Math.random() * 1E9) + '-' + file.originalname);
+  }
+});
+
+const fileFilter = (requete, file, cb) => {
+    if(file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+        cb(null, true); // Accepter le fichier
+    } else {
+        cb(new Error("Le format de l'image n'est pas acceptée"), false);
+    }
+};
+
+const upload = multer({
+    storage : storage,
+    limits : {
+        fileSize : 1024 * 1024 * 5 // 5mo
+    },
+    fileFilter: fileFilter 
+});
+
+
 routeur.get("/", (requete,reponse) => {
     reponse.render("accueil.html.twig");
 });
@@ -20,7 +62,7 @@ routeur.get("/livres", (requete,reponse) => {
     });
 });
 
-routeur.post("/livres", (requete,reponse) => {
+routeur.post("/livres", upload.single("image"), (requete,reponse) => {
     const livre = new livreModel({
         _id: new mongoose.Types.ObjectId(),
         nom: requete.body.titre,
