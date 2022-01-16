@@ -1,58 +1,9 @@
-const express = require("express");
-const routeur = express.Router();
-const twig = require("twig");
 const mongoose = require("mongoose");
-const livreModel = require('./models/livres.model');
 const fs = require("fs");
+const livreModel = require("../models/livres.model");
 
-const multer =  require("multer");
-
-const storage = multer.diskStorage({
-  destination: function (requete, file, cb) {
-    cb(null, './public/images/');
-  },
-  filename: function (requete, file, cb) {
-    //   var date = new Date().toLocaleDateString();
-    //   console.log(date);
-
-    // Error: ENOENT: no such file or directory, open 
-    // cb(null, date+'-'+(Math.round(Math.random() * 1E9))+'-'+file.originalname);
-      
-    // cb(null, Date.now() + '-' + Math.round(Math.random() * 1E9) + '-' + file.originalname);
-    // cb(null, file.originalname);
-    
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth();
-    let year = date.getFullYear();
-
-    cb(null, day + '-' + month + '-' + year + '-' + Math.round(Math.random() * 1E9) + '-' + file.originalname);
-  }
-});
-
-const fileFilter = (requete, file, cb) => {
-    if(file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-        cb(null, true); // Accepter le fichier
-    } else {
-        cb(new Error("Le format de l'image n'est pas acceptée"), false);
-    }
-};
-
-const upload = multer({
-    storage : storage,
-    limits : {
-        fileSize : 1024 * 1024 * 5 // 5mo
-    },
-    fileFilter: fileFilter 
-});
-
-
-routeur.get("/", (requete,reponse) => {
-    reponse.render("accueil.html.twig");
-});
-
-routeur.get("/livres", (requete,reponse) => {
-    livreModel.find()
+exports.livres_affichage = (requete, reponse) => {
+    var livres = livreModel.find()
     .exec()
     .then(livres => {
         //console.log(livres);
@@ -61,9 +12,9 @@ routeur.get("/livres", (requete,reponse) => {
     .catch(error => {
         console.log(error);
     });
-});
+}
 
-routeur.post("/livres", upload.single("image"), (requete,reponse) => {
+exports.livres_ajout = (requete,reponse) => {
     const livre = new livreModel({
         _id: new mongoose.Types.ObjectId(),
         nom: requete.body.titre,
@@ -85,10 +36,9 @@ routeur.post("/livres", upload.single("image"), (requete,reponse) => {
         }
         reponse.redirect("/livres");
     });
-});
+}
 
-// Affichage détaillé d'un livre
-routeur.get("/livres/:id", (requete,reponse) => {
+exports.livre_affichage = (requete,reponse) => {
     livreModel.findById(requete.params.id)
         .exec()
         .then(livre => {
@@ -106,10 +56,9 @@ routeur.get("/livres/:id", (requete,reponse) => {
             }
             reponse.redirect("/livres");
         });
-});
+}
 
-// Modification d'un livre (formulaire)
-routeur.get("/livres/modification/:id", (requete,reponse) => {
+exports.livre_modification = (requete,reponse) => {
     livreModel.findById(requete.params.id)
         .exec()
         .then(livre => {
@@ -127,10 +76,9 @@ routeur.get("/livres/modification/:id", (requete,reponse) => {
             }
             reponse.redirect("/livres");
         });
-});
+}
 
-// Modification du livre Traitement du formulaire dans le model et BDD
-routeur.post("/livres/modificationServer", (requete,reponse) => {
+exports.livre_modification_validation = (requete,reponse) => {
     // console.log(requete.body);
     const livreUpdate = {
         nom : requete.body.titre,
@@ -164,9 +112,9 @@ routeur.post("/livres/modificationServer", (requete,reponse) => {
         }
         reponse.redirect("/livres");
     });
-});
+}
 
-routeur.post("/livres/updateImage", upload.single("image"), (requete,reponse) => {
+exports.livre_modification_validation_image = (requete,reponse) => {
     // Supppression de l'ancienne image en physique du serveur du dossier /images/
     var livre = livreModel.findById(requete.body.identifiant)
     .select("image")
@@ -205,9 +153,9 @@ routeur.post("/livres/updateImage", upload.single("image"), (requete,reponse) =>
     .catch(error => {
         console.log(error);
     });
-});
+}
 
-routeur.post("/livres/delete/:id", (requete,reponse) => {
+exports.livre_suppression = (requete,reponse) => {
     /* 
     Error
     (node:14048) [MONGODB DRIVER] Warning: collection.remove is deprecated. Use deleteOne, deleteMany, or bulkWrite instead.
@@ -246,19 +194,4 @@ routeur.post("/livres/delete/:id", (requete,reponse) => {
     .catch(error => {
         console.log(error);
     });
-});
-
-// Gère l'erreur 404
-routeur.use((requete,reponse,suite) => {
-    const error = new Error("Page non trouvee ! ");
-    error.status = 404;
-    suite(error); // envoi a la route ci-dessous avec "error" générée
-});
-
-// Gère toutes les erreurs
-routeur.use((error,requete,reponse) => {
-    reponse.status(error.status || 500);
-    reponse.end(error.message);
-});
-
-module.exports = routeur;
+}
