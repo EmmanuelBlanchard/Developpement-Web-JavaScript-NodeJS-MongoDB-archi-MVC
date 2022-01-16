@@ -166,6 +166,47 @@ routeur.post("/livres/modificationServer", (requete,reponse) => {
     });
 });
 
+routeur.post("/livres/updateImage", upload.single("image"), (requete,reponse) => {
+    // Supppression de l'ancienne image en physique du serveur du dossier /images/
+    var livre = livreModel.findById(requete.body.identifiant)
+    .select("image")
+    .exec()
+    .then(livre => {
+        console.log(livre)
+        fs.unlink("./public/images/"+livre.image, error => {
+            console.log(error);
+        });
+        const livreUpdate = {
+            image: requete.file.path.substring(14) // Supprimer /public/images/ du path
+        };
+        // Mise a jour de la BD pour mettre le nouveau nom de l'image du livre en physique du serveur du dossier /images/
+        livreModel.updateOne({_id:requete.body.identifiant}, livreUpdate)
+        .exec()
+        .then(resultat => {
+            console.log(resultat);
+            if(resultat.modifiedCount < 1) {
+                throw new Error("La requête de modification de l'image du livre a échouée !");
+            }
+            requete.session.message = {
+                type : "success",
+                contenu : "Modification de l'image du livre effectuée"
+            }
+            reponse.redirect("/livres/modification/"+requete.body.identifiant);
+        })
+        .catch(error => {
+            console.log(error);
+            requete.session.message = {
+                type : "danger",
+                contenu : error.message
+            }
+            reponse.redirect("/livres/modification/"+requete.body.identifiant);
+        });
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
 routeur.post("/livres/delete/:id", (requete,reponse) => {
     /* 
     Error

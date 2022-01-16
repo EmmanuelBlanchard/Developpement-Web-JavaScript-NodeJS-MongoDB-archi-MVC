@@ -2,6 +2,13 @@
 
 {% block titre %} {{livre.nom}} {% endblock %}
 {% block contenu %}
+
+{% if message|length > 0 %}
+    <div class="alert alert-{{message.type}}" role="alert">
+        {{message.contenu}}
+    </div>
+{% endif %}
+
     {% if isModification %}
         <form action="/livres/modificationServer" method="POST">
             <div class="row m-3">
@@ -34,6 +41,20 @@
                 <a href="/livres" class="btn btn-danger col-6">Annuler</a>
             </div>
         </form>
+        <h2>Images</h2>
+        <form action="/livres/updateImage" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="identifiant" value="{{livre._id}}">
+            <div class="row">
+                <img src="/images/{{livre.image}}" class="col-3" alt="">
+                <div class="form-group col-9">
+                    <label for="">Image</label>
+                    <input type="file" class="form-control-file" name="image" id="image" required>
+                    <button class="btn btn-primary" type="submit">Modifier l'image</button>
+                </div>
+            </div>
+        </form>
+    
+        
         {% else %}
             <div class="row m-3">
                 <div class="col-6">
