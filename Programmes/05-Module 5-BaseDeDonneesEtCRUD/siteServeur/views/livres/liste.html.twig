@@ -13,6 +13,7 @@
     <table class="table text-center monTableau" id="tableauLivres">
         <thead>
             <tr class="table-dark">
+                <th scope="col">Image</th>
                 <th scope="col">Titre</th>
                 <th scope="col">Auteur</th>
                 <th scope="col">Nombre de pages</th>
@@ -22,11 +23,12 @@
         <tbody>
             {% for livre in livres %}
             <tr>
-                <td><a href="/livres/{{ livre._id }}"> {{livre.nom}} </a></td>
-                <td> {{livre.auteur}} </td>
-                <td> {{livre.nombreDePages}} </td>
-                <td><a href="/livres/modification/{{ livre._id }}" class="btn btn-warning m-2">Modifier</a></td>
-                <td>
+                <td class="align-middle"><img src="/images/{{livre.image}}" class="img-thumbnail" width="60px" alt=""></td> 
+                <td class="align-middle"><a href="/livres/{{ livre._id }}"> {{livre.nom}} </a></td>
+                <td class="align-middle"> {{livre.auteur}} </td>
+                <td class="align-middle"> {{livre.nombreDePages}} </td>
+                <td class="align-middle"><a href="/livres/modification/{{ livre._id }}" class="btn btn-warning m-2">Modifier</a></td>
+                <td class="align-middle">
                     <form method="POST" action="/livres/delete/{{ livre._id }}" onsubmit="return confirm('Voulez vous vraiment supprimer le livre {{ livre.nom }} de  {{livre.auteur}} ? ');">
                         <button class="btn btn-danger m-2" type="submit">Supprimer</button>
                     </form>
