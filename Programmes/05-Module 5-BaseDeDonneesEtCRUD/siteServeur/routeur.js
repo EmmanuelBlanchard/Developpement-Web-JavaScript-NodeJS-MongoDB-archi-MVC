@@ -3,6 +3,7 @@ const routeur = express.Router();
 const twig = require("twig");
 const mongoose = require("mongoose");
 const livreModel = require('./models/livres.model');
+const fs = require("fs");
 
 const multer =  require("multer");
 
@@ -171,26 +172,38 @@ routeur.post("/livres/delete/:id", (requete,reponse) => {
     (node:14048) [MONGODB DRIVER] Warning: collection.remove is deprecated. Use deleteOne, deleteMany, or bulkWrite instead.
     */
     // livreModel.remove({_id:requete.params.id})
-    livreModel.deleteOne({_id:requete.params.id})
+    var livre = livreModel.findById(requete.params.id)
+    .select("image")
     .exec()
-    .then(resultat => {
-        console.log(resultat)
-        if(resultat.deletedCount < 1) {
-            throw new Error("La requête de suppression du livre a échouée !");
-        }
-        requete.session.message = {
-            type : "success",
-            contenu : "Suppression du livre effectuée"
-        }
-        reponse.redirect("/livres");
+    .then(livre => {
+        console.log(livre)
+        fs.unlink("./public/images/"+livre.image, error => {
+            console.log(error);
+        });
+        livreModel.deleteOne({_id:requete.params.id})
+        .exec()
+        .then(resultat => {
+            console.log(resultat)
+            if(resultat.deletedCount < 1) {
+                throw new Error("La requête de suppression du livre a échouée !");
+            }
+            requete.session.message = {
+                type : "success",
+                contenu : "Suppression du livre effectuée"
+            }
+            reponse.redirect("/livres");
+        })
+        .catch(error => {
+            console.log(error);
+            requete.session.message = {
+                type : "danger",
+                contenu : error.message
+            }
+            reponse.redirect("/livres");
+        });
     })
     .catch(error => {
         console.log(error);
-        requete.session.message = {
-            type : "danger",
-            contenu : error.message
-        }
-        reponse.redirect("/livres");
     });
 });
 
