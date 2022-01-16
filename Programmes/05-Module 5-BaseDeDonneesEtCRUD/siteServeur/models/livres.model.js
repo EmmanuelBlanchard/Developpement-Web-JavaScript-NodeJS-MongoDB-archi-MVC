@@ -6,6 +6,7 @@ const livreSchema = mongoose.Schema({
     auteur: String,
     nombreDePages: Number,
     description: String,
+    image: String,
 });
 
 // Association entre le schema et la BD, Export du model

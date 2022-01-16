@@ -69,6 +69,7 @@ routeur.post("/livres", upload.single("image"), (requete,reponse) => {
         auteur: requete.body.auteur,
         nombreDePages: requete.body.nombreDePages,
         description: requete.body.description,
+        image: requete.file.path.substring(14) // Supprimer /public/images/ du path
     })
     livre.save()
     .then(resultat => {
