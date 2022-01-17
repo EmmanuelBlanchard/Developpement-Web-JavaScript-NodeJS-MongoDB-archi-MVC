@@ -4,9 +4,10 @@ const livreModel = require("../models/livres.model");
 
 exports.livres_affichage = (requete, reponse) => {
     var livres = livreModel.find()
+    .populate("auteur")
     .exec()
     .then(livres => {
-        //console.log(livres);
+        console.log(livres);
         reponse.render("livres/liste.html.twig", { livres : livres, message: reponse.locals.message});
     })
     .catch(error => {
