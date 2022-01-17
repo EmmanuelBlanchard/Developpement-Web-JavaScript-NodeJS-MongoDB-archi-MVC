@@ -47,19 +47,65 @@ exports.auteur_affichage = (requete, reponse) => {
     .exec()
     .then(auteur => {
         console.log(auteur);
-        reponse.render("auteurs/auteur.html.twig", {auteur : auteur});
+        reponse.render("auteurs/auteur.html.twig", {auteur : auteur, isModification:false});
     })
     .catch(error => {
         console.log(error);
     });
 }
 
+exports.auteur_modification = (requete,reponse) => {
+    auteurModel.findById(requete.params.id)
+    .populate("livres")
+    .exec()
+    .then(auteur => {
+        console.log(auteur);
+        if(auteur === null) {
+            throw new Error("La demande de modification de l'auteur provenant du formulaire a échouée !");
+        }
+        reponse.render("auteurs/auteur.html.twig", {auteur : auteur, isModification:true});
+    })
+    .catch(error => {
+        console.log(error);
+        requete.session.message = {
+            type : "danger",
+            contenu : error.message
+        }
+        reponse.redirect("/auteurs");
+    });
+}
+
+exports.auteur_modification_validation = (requete,reponse) => {
+    const auteurUpdate = {
+        nom: requete.body.nom,
+        prenom: requete.body.prenom,
+        age: requete.body.age,
+        sexe: (requete.body.sexe) ? true : false,
+    }
+    auteurModel.updateOne({_id:requete.body.identifiant}, auteurUpdate)
+    .exec()
+    .then(resultat => {
+        console.log(resultat)
+        if(resultat.modifiedCount < 1) {
+            throw new Error("La requête de modification de l'auteur a échouée !");
+        }
+        requete.session.message = {
+            type : "success",
+            contenu : "Modification de l'auteur effectuée"
+        }
+        reponse.redirect("/auteurs");
+    })
+    .catch(error => {
+        console.log(error);
+        requete.session.message = {
+            type : "danger",
+            contenu : error.message
+        }
+        reponse.redirect("/auteurs");
+    });
+}
+
 exports.auteur_suppression = (requete,reponse) => {
-    /* 
-    Error
-    (node:14048) [MONGODB DRIVER] Warning: collection.remove is deprecated. Use deleteOne, deleteMany, or bulkWrite instead.
-    */
-    // livreModel.remove({_id:requete.params.id})
     auteurModel.find()
     .where("nom").equals("anonyme")
     .exec()

@@ -1,32 +1,71 @@
 {% extends "base.html.twig" %}
 
 {% block titre %} Auteur : {{auteur.nom}} - {{auteur.prenom}} {% endblock %}
+
 {% block contenu %}
-    <h2>Nom : {{auteur.nom}}</h2>
-    <h2>Prénom : {{auteur.prenom}}</h2>
-    <div>Age : {{auteur.age}}</div>
-    <div>Sexe :
-        {% if auteur.sexe %}
-            Homme
-        {% else %}
-            Femme
-        {% endif %}
+
+{% if message|length > 0 %}
+    <div class="alert alert-{{message.type}}" role="alert">
+        {{message.contenu}}
     </div>
-    <h2>Livres</h2>
-    <div class="row m-3">
-        {% for livre in auteur.livres %}
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-6">
-                        <img src="/images/{{livre.image}}" class="img-thumbnail">
-                    </div>
-                    <div class="col-6">
-                        <div> Titre : <a href="/livres/{{livre._id}}">{{livre.nom}}</a></div>
-                        <div> Nombres de pages : {{livre.nombreDePages}}</div>
-                        <div> Description : {{livre.description}}</div>
+{% endif %}
+
+{% if isModification %}
+    <form action="/auteurs/modificationServer" method="POST">
+        <fieldset>
+            <legend>Modification d'un auteur</legend>
+            <div class="mb-3">
+                <label for="titre">Prénom</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" value="{{auteur.prenom}}">
+            </div>
+            <div class="mb-3">
+                <label for="titre">Nom</label>
+                <input type="text" class="form-control" id="nom" name="nom" value="{{auteur.nom}}">
+            </div>
+            <div class="mb-3">
+                <label for="pages">Age</label>
+                <input type="number" class="form-control" id="age" name="age" value="{{auteur.age}}">
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="sexe" name="sexe"
+                {% if auteur.sexe %} checked {% endif %}
+                >
+                <label class="form-check-label" for="sexe">Homme</label>
+            </div>
+            <div class="row">
+                <input type="hidden" name="identifiant" value="{{auteur._id}}">
+                <button class="btn btn-success col-6" type="submit">Valider</button>
+                <a href="/auteurs" class="btn btn-danger col-6">Annuler</a>
+            </div>
+        </fieldset>
+    </form>
+    {% else %}
+        <h2>Nom : {{auteur.nom}}</h2>
+        <h2>Prénom : {{auteur.prenom}}</h2>
+        <div>Age : {{auteur.age}}</div>
+        <div>Sexe :
+            {% if auteur.sexe %}
+                Homme
+            {% else %}
+                Femme
+            {% endif %}
+        </div>
+        <h2>Livres</h2>
+        <div class="row m-3">
+            {% for livre in auteur.livres %}
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <img src="/images/{{livre.image}}" class="img-thumbnail">
+                        </div>
+                        <div class="col-6">
+                            <div> Titre : <a href="/livres/{{livre._id}}">{{livre.nom}}</a></div>
+                            <div> Nombres de pages : {{livre.nombreDePages}}</div>
+                            <div> Description : {{livre.description}}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}
