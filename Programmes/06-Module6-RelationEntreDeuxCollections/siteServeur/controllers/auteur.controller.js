@@ -18,6 +18,8 @@ exports.auteurs_affichage = (requete, reponse) => {
 
 exports.auteur_affichage = (requete, reponse) => {
     auteurModel.findById(requete.params.id)
+    // appel au virtual dans auteurs.model
+    .populate("livres")
     .exec()
     .then(auteur => {
         console.log(auteur);
