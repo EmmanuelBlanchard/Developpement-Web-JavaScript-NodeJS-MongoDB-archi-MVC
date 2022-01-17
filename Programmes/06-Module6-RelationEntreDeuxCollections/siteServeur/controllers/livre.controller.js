@@ -8,7 +8,7 @@ exports.livres_affichage = (requete, reponse) => {
     .exec()
     .then(auteurs => {
         console.log(auteurs);
-        var livres = livreModel.find()
+        livreModel.find()
         .populate("auteur")
         .exec()
         .then(livres => {
@@ -54,34 +54,43 @@ exports.livres_ajout = (requete,reponse) => {
 
 exports.livre_affichage = (requete,reponse) => {
     livreModel.findById(requete.params.id)
-        .populate("auteur")
-        .exec()
-        .then(livre => {
-            console.log(livre)
-            if(livre === null) {
-                throw new Error("La demande d'affichage détaillé du livre a échouée !");
-            }
-            reponse.render("livres/livre.html.twig", {livre : livre, isModification:false});
-        })
-        .catch(error => {
-            console.log(error);
-            requete.session.message = {
-                type : "danger",
-                contenu : error.message
-            }
-            reponse.redirect("/livres");
-        });
+    .populate("auteur")
+    .exec()
+    .then(livre => {
+        console.log(livre)
+        if(livre === null) {
+            throw new Error("La demande d'affichage détaillé du livre a échouée !");
+        }
+        reponse.render("livres/livre.html.twig", {livre : livre, isModification:false});
+    })
+    .catch(error => {
+        console.log(error);
+        requete.session.message = {
+            type : "danger",
+            contenu : error.message
+        }
+        reponse.redirect("/livres");
+    });
 }
 
 exports.livre_modification = (requete,reponse) => {
-    livreModel.findById(requete.params.id)
+    auteurModel.find()
+    .exec()
+    .then(auteurs => {
+        // console.log(auteurs);
+        livreModel.findById(requete.params.id)
+        .populate("auteur")
         .exec()
         .then(livre => {
-            console.log(livre)
+            // console.log(livre)
             if(livre === null) {
                 throw new Error("La demande de modification du livre provenant du formulaire a échouée !");
             }
-            reponse.render("livres/livre.html.twig", {livre : livre, isModification:true});
+            reponse.render("livres/livre.html.twig", {
+                livre : livre,
+                auteurs : auteurs,
+                isModification:true
+            });
         })
         .catch(error => {
             console.log(error);
@@ -91,6 +100,10 @@ exports.livre_modification = (requete,reponse) => {
             }
             reponse.redirect("/livres");
         });
+    })
+    .catch(error => {
+        console.log(error);
+    });
 }
 
 exports.livre_modification_validation = (requete,reponse) => {
