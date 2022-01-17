@@ -54,6 +54,7 @@ exports.livres_ajout = (requete,reponse) => {
 
 exports.livre_affichage = (requete,reponse) => {
     livreModel.findById(requete.params.id)
+        .populate("auteur")
         .exec()
         .then(livre => {
             console.log(livre)
