@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const fs = require("fs");
 const auteurModel = require("../models/auteurs.model");
+const livreModel = require("../models/livres.model");
 
 exports.auteurs_affichage = (requete, reponse) => {
     auteurModel.find()
@@ -51,4 +52,44 @@ exports.auteur_affichage = (requete, reponse) => {
     .catch(error => {
         console.log(error);
     });
+}
+
+exports.auteur_suppression = (requete,reponse) => {
+    /* 
+    Error
+    (node:14048) [MONGODB DRIVER] Warning: collection.remove is deprecated. Use deleteOne, deleteMany, or bulkWrite instead.
+    */
+    // livreModel.remove({_id:requete.params.id})
+    auteurModel.find()
+    .where("nom").equals("anonyme")
+    .exec()
+    .then(auteur => {
+        console.log(auteur);
+        livreModel.updateMany({"auteur":requete.params.id}, {"$set":{"auteur":auteur[0].id}}, {"mulit": true})
+        .exec()
+        .then(
+            auteurModel.deleteOne({_id:requete.params.id})
+            .where("nom").ne("anonyme")
+            .exec()
+            .then(resultat => {
+                console.log(resultat)
+                if(resultat.deletedCount < 1) {
+                    throw new Error("La requête de suppression de l'auteur a échouée !");
+                }
+                requete.session.message = {
+                    type : "success",
+                    contenu : "Suppression de l'auteur effectuée"
+                }
+                reponse.redirect("/auteurs");
+            })
+            .catch(error => {
+                console.log(error);
+                requete.session.message = {
+                    type : "danger",
+                    contenu : error.message
+                }
+                reponse.redirect("/auteurs");
+            })
+        )
+    })
 }
