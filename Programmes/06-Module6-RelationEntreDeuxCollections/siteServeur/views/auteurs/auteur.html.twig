@@ -1,8 +1,15 @@
 {% extends "base.html.twig" %}
 
-{% block titre %} Auteur : {{auteur.nom}} {% endblock %}
+{% block titre %} Auteur : {{auteur.nom}} - {{auteur.prenom}} {% endblock %}
 {% block contenu %}
-    <div> Ici le contenu de la page auteur 
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum cumque ea ipsum id quod enim commodi qui quia. Illum in suscipit repudiandae pariatur asperiores ipsam distinctio nisi assumenda esse? Dolor?
+    <h2>Nom : {{auteur.nom}}</h2>
+    <h2>Prénom : {{auteur.prenom}}</h2>
+    <div>Age : {{auteur.age}}</div>
+    <div>Sexe :
+        {% if auteur.sexe %}
+            Homme
+        {% else %}
+            Femme
+        {% endif %}
     </div>
 {% endblock %}
