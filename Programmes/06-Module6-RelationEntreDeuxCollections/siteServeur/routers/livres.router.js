@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (requete, file, cb) => {
-    if(file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    if(file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/webp") {
         cb(null, true); // Accepter le fichier
     } else {
         cb(new Error("Le format de l'image n'est pas acceptée"), false);

@@ -8,7 +8,6 @@
         {{message.contenu}}
     </div>
 {% endif %}
-
     {% if isModification %}
         <form action="/livres/modificationServer" method="POST">
             <div class="row m-3">
@@ -53,20 +52,20 @@
                 </div>
             </div>
         </form>
-        {% else %}
-            <div class="row m-3">
-                <div class="col-6">
-                    <h2>Informations</h2>
-                    <div>Auteur : {{livre.auteur}}</div>
-                    <div>Nombre de pages : {{livre.nombreDePages}}</div>
-                    <img src="/images/{{livre.image}}" alt="">
-                </div>
-                <div class="col-6">
-                    <h2>Résumé : </h2>
-                    <div>
-                        {{livre.description}}
-                    </div>
+    {% else %}
+        <div class="row m-3">
+            <div class="col-6">
+                <h2>Informations</h2>
+                <div>Auteur : {{livre.auteur}}</div>
+                <div>Nombre de pages : {{livre.nombreDePages}}</div>
+                <img src="/images/{{livre.image}}" alt="">
+            </div>
+            <div class="col-6">
+                <h2>Résumé : </h2>
+                <div>
+                    {{livre.description}}
                 </div>
             </div>
-        {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}

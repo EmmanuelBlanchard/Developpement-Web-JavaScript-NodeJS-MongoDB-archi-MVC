@@ -1,14 +1,27 @@
 const mongoose = require("mongoose");
 const fs = require("fs");
 const livreModel = require("../models/livres.model");
+const auteurModel = require("../models/auteurs.model");
 
 exports.livres_affichage = (requete, reponse) => {
-    var livres = livreModel.find()
-    .populate("auteur")
+    auteurModel.find()
     .exec()
-    .then(livres => {
-        console.log(livres);
-        reponse.render("livres/liste.html.twig", { livres : livres, message: reponse.locals.message});
+    .then(auteurs => {
+        console.log(auteurs);
+        var livres = livreModel.find()
+        .populate("auteur")
+        .exec()
+        .then(livres => {
+            console.log(livres);
+            reponse.render("livres/liste.html.twig", { 
+                livres : livres,
+                auteurs : auteurs,
+                message: reponse.locals.message
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
     })
     .catch(error => {
         console.log(error);

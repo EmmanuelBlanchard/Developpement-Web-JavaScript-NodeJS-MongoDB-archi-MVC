@@ -47,7 +47,11 @@
             </div>
             <div class="mb-3">
                 <label for="auteur" class="form-label">Auteur</label>
-                <input type="text" class="form-control" id="auteur" name="auteur">
+                <select class="form-control" name="auteur" id="auteur">
+                    {% for auteur in auteurs %}
+                        <option value="{{auteur._id}}">{{auteur.prenom}} {{auteur.nom}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="mb-3">
                 <label for="nombreDePages" class="form-label">Nombre de pages</label>
