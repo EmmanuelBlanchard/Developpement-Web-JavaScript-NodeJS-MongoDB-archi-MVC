@@ -1,7 +1,14 @@
 {% extends "base.html.twig" %}
 
 {% block titre %} Page affichant les auteurs {% endblock %}
-{% block contenu %} 
+
+{% block contenu %}
+
+{% if message|length > 0 %}
+    <div class="alert alert-{{message.type}}" role="alert">
+        {{message.contenu}}
+    </div>
+{% endif %}
     <table class="table text-center monTableau" id="tableauLivres">
         <thead>
             <tr class="table-dark">
@@ -27,4 +34,28 @@
             {% endfor %}
         </tbody>
     </table>
+    <button onclick="afficherFormulaire()" class="btn btn-success w-100">Ajouter</button>
+    <form id="ajoutFormulaire" class="d-none" method="POST" action="">
+        <fieldset>
+            <legend>Création d'un auteur</legend>
+            <div class="mb-3">
+                <label for="prenom" class="form-label">Prénom</label>
+                <input type="text" class="form-control" id="prenom" name="prenom">
+            </div>
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom</label>
+                <input type="text" class="form-control" id="nom" name="nom">
+            </div>
+            <div class="mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" class="form-control" id="age" name="age">
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="sexe" name="sexe">
+                <label class="form-check-label" for="sexe">Homme</label>
+            </div>
+            <button class="btn btn-primary" type="submit">Valider</button>
+        </fieldset>
+    </form>
+    <script src="javascript/ajoutAuteur.js"></script>
 {% endblock %}

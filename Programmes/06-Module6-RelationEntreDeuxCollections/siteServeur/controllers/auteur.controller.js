@@ -16,6 +16,29 @@ exports.auteurs_affichage = (requete, reponse) => {
     });
 }
 
+exports.auteurs_ajout = (requete,reponse) => {
+    const auteur = new auteurModel({
+        _id: new mongoose.Types.ObjectId(),
+        nom: requete.body.nom,
+        prenom: requete.body.prenom,
+        age: requete.body.age,
+        sexe: (requete.body.sexe) ? true : false,
+    })
+    auteur.save()
+    .then(resultat => {
+        console.log(resultat);
+        reponse.redirect("/auteurs");
+    })
+    .catch(error => {
+        console.log(error);
+        requete.session.message = {
+            type : "danger",
+            contenu : error.message
+        }
+        reponse.redirect("/auteurs");
+    });
+}
+
 exports.auteur_affichage = (requete, reponse) => {
     auteurModel.findById(requete.params.id)
     // appel au virtual dans auteurs.model
